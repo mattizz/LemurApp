@@ -47,7 +47,6 @@ public class UserService {
     }
 
     public void deactivateUser(final Integer id) {
-
         Optional<User> userToDeactivate = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id && t.isActive()).findFirst();
 
         if (userToDeactivate.isPresent()) {
@@ -61,8 +60,7 @@ public class UserService {
     }
 
     public void activateUser(final Integer id) {
-
-        Optional<User> userToDeactivate = this.userRepository.findAll().stream().filter(t -> t.getUserId()==id && t.isActive()).findFirst();
+        Optional<User> userToDeactivate = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id && t.isActive()).findFirst();
 
         if (userToDeactivate.isPresent()) {
             User user = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id).findFirst().get();
