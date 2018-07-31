@@ -1,16 +1,12 @@
 package pl.parklinowy.server.service;
 
-import org.joda.time.DateTime;
-import pl.parklinowy.server.entity.User;
-import pl.parklinowy.server.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.parklinowy.server.entity.User;
+import pl.parklinowy.server.exception.UserNotFoundException;
 import pl.parklinowy.server.repository.UserRepository;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,7 +22,17 @@ public class UserService {
     }
 
     public List<User> showAllUser() {
-        List<User> userList = this.userRepository.findAll().stream().filter(user -> user.isActive() == true).collect(Collectors.toList());
+        List<User> userList = this.userRepository.findAll();
+
+        if (userList.isEmpty()) {
+            throw new UserNotFoundException("User not found");
+        } else {
+            return userList;
+        }
+    }
+
+    public List<User> showActiveUser() {
+        List<User> userList = this.userRepository.findAll().stream().filter(user -> user.isActive()).collect(Collectors.toList());
 
         if (userList.isEmpty()) {
             throw new UserNotFoundException("User not found");
@@ -40,31 +46,47 @@ public class UserService {
         return this.userRepository.save(user);
     }
 
-    public void deactivateUser(final String id) {
+    public void deactivateUser(final Integer id) {
 
-        Optional<User> userToDeactivate = this.userRepository.findById(id);
+        Optional<User> userToDeactivate = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id && t.isActive()).findFirst();
 
         if (userToDeactivate.isPresent()) {
-            User user = userRepository.findById(id).get();
+            User user = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id).findFirst().get();
             user.setFinishDate(LocalDateTime.now());
             user.setActive(false);
+            this.userRepository.save(user);
         } else {
             throw new UserNotFoundException("User not found");
         }
     }
 
-    public User editUser(final Integer id, User user) {
-        Optional<User> userUpdate = this.userRepository.findById(id.toString());
+    public void activateUser(final Integer id) {
+
+        Optional<User> userToDeactivate = this.userRepository.findAll().stream().filter(t -> t.getUserId()==id && t.isActive()).findFirst();
+
+        if (userToDeactivate.isPresent()) {
+            User user = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id).findFirst().get();
+            user.setActive(true);
+            this.userRepository.save(user);
+        } else {
+            throw new UserNotFoundException("User not found");
+        }
+    }
+
+    public User updateUser(final Integer id, User user) {
+
+        Optional<User> userUpdate = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id && t.isActive()).findFirst();
 
         if (userUpdate.isPresent()) {
-            User userToEdit = userRepository.findById(id.toString()).get();
-            userToEdit.setFirstname(user.getFirstname());
-            userToEdit.setLastname(user.getLastname());
+            User userToEdit = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id && t.isActive()).findFirst().get();
+            userToEdit.setFirstName(user.getFirstName());
+            userToEdit.setLastName(user.getLastName());
             userToEdit.setIdentityCardNumber(user.getIdentityCardNumber());
             userToEdit.setAdditionalText(user.getAdditionalText());
             userToEdit.setPay(user.isPay());
             userToEdit.setRun(user.getRun());
-            return user;
+            userToEdit.setActive(user.isActive());
+            return this.userRepository.save(userToEdit);
         } else {
             throw new UserNotFoundException("User not found");
         }

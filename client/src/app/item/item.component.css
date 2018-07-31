@@ -1,0 +1,24 @@
+.content{
+  font-family: 'Atma', sans-serif;
+}
+
+.fullName{
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#timeAndButton{
+  text-align: center;
+  line-height: 3em
+}
+
+#item{
+  border-bottom: 1px solid grey;
+  margin: 2% 0 2% 0;
+}
+
+#number{
+  font-weight: bold;
+}
+
+

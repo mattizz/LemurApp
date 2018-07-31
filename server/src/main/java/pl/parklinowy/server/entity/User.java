@@ -11,7 +11,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer userId;
 
     @Size(min = 1)
     private String firstName;
@@ -22,8 +22,7 @@ public class User {
     @Size(min = 1)
     private String identityCardNumber;
 
-    @Size(min = 1)
-    private String additionalText;
+    private String additionalText = "";
 
     @Enumerated(EnumType.STRING)
     private RouteType run;
@@ -37,22 +36,31 @@ public class User {
     private LocalDateTime finishDate;
 
     public User() {
+
     }
 
-    public String getFirstname() {
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstName = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
+    public String getLastName() {
         return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastName = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getIdentityCardNumber() {
@@ -87,12 +95,12 @@ public class User {
         this.pay = pay;
     }
 
-    public int getId() {
-        return id;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public LocalDateTime getStartDate() {
@@ -109,14 +117,6 @@ public class User {
 
     public void setFinishDate(LocalDateTime finishDate) {
         this.finishDate = finishDate;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 
 }

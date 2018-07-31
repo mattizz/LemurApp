@@ -1,11 +1,11 @@
 package pl.parklinowy.server.controller;
 
-import pl.parklinowy.server.entity.User;
-import pl.parklinowy.server.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.parklinowy.server.entity.User;
+import pl.parklinowy.server.exception.UserNotFoundException;
 import pl.parklinowy.server.service.UserService;
 
 import java.util.List;
@@ -21,34 +21,55 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    //@CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<List<User>> showUsers(){
-        try{
+    @GetMapping("/all")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<List<User>> showAllUsers() {
+        try {
             return new ResponseEntity<>(this.userService.showAllUser(), HttpStatus.OK);
-        }catch (UserNotFoundException exception){
+        } catch (UserNotFoundException exception) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<List<User>> showActiveUsers() {
+        try {
+            return new ResponseEntity<>(this.userService.showActiveUser(), HttpStatus.OK);
+        } catch (UserNotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
-    //@CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<User> addNewUser(@RequestBody final User user){
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<User> addNewUser(@RequestBody final User user) {
         return new ResponseEntity<>(this.userService.createUser(user), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    //@CrossOrigin(origins = "http://localhost:4200")
-    public void deactivateUser(@PathVariable("id") final String id){
+    @CrossOrigin(origins = "http://localhost:4200")
+    public void deactivateUser(@PathVariable final Integer id) {
         this.userService.deactivateUser(id);
     }
 
-    @PutMapping("/{id}")
-    //@CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<User> editUser(@PathVariable final int id, @RequestBody final User user) {
-        try{
+    @PostMapping("/all/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity activateUser(@PathVariable final Integer id) {
+        try {
+            this.userService.activateUser(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch (UserNotFoundException exception){
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/all/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<User> updateUser(@PathVariable final Integer id, @RequestBody final User user) {
+        try {
+            return new ResponseEntity<>(this.userService.updateUser(id, user), HttpStatus.OK);
+        } catch (UserNotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

@@ -1,0 +1,17 @@
+<div class="content" >
+  <div class="row" *ngFor="let user of users | reverse; let i = index" id="item">
+    <div class="col+2" id="number">{{i+1}}.</div>
+    <div class="col" [ngStyle]="{'color': user.pay == true ? '#55e226' : 'red'}">
+      <p class="fullName">{{user.firstName + ' ' + user.lastName}}</p>
+      <p class="identityCardNumber">Numer dowodu: {{user.identityCardNumber}}</p>
+      <p class="runType">Trasa: {{user.run}}</p>
+      <p class="additionalText">Dodatkowe informacje: {{user.additionalText}}</p>
+    </div>
+    <div class="col-0 align-middle" id="timeAndButton">
+      <p id="date">{{user.startDate | date: 'HH:mm:ss dd.MM.yyyy'}}</p>
+      <button (click)="deactivateUser(user.id)" class="btn btn-secondary">Usuń</button>
+    </div>
+  </div>
+</div>
+
+<link href='http://fonts.googleapis.com/css?family=Atma&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
