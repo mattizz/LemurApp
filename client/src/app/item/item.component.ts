@@ -22,7 +22,9 @@ export class ItemComponent implements OnInit {
     });
   }
 
-  deactivateUser(){
+  deactivateUser(id: number){
+    this.users[id].active = false;
+    this.httpService.deactivateUser();
   }
 
 }

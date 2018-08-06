@@ -7,7 +7,8 @@ import { HttpService} from "./services/Http.service";
 import { HttpClientModule} from "@angular/common/http";
 import { ItemComponent } from './item/item.component';
 import { RegisterComponent } from './register/register.component';
-import { ReversePipe } from './reverse.pipe';
+import { ReversePipe } from './pipes/reverse.pipe';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ReversePipe } from './reverse.pipe';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [HttpService],
   bootstrap: [AppComponent]

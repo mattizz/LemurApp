@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../services/Http.service";
+import {User} from "../models/user";
+
 
 @Component({
   selector: 'app-register',
@@ -7,10 +9,7 @@ import {HttpService} from "../services/Http.service";
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  ngOnInit(){
 
-  constructor(private httpService: HttpService) { }
-
-  ngOnInit() {
   }
-
 }

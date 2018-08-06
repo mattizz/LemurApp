@@ -1,4 +1,4 @@
-export enum RouteType {
+export enum RunsType {
   LOW,
   MIDDLE,
   TOP

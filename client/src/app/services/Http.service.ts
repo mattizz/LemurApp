@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs/internal/Observable";
 import {HttpClient} from "@angular/common/http";
-import {User} from "../user";
+import {User} from "../models/user";
 
 @Injectable()
 export class HttpService {
@@ -11,8 +11,8 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
-  newUserPost() {
-
+  newUserPost(user: User) : Observable<User>{
+    return this.http.post<User>(this.url + '/createUser', user);
   }
 
   getUsers(): Observable<Array<User>> {
@@ -20,7 +20,7 @@ export class HttpService {
   }
 
   deactivateUser() {
-
+    return this.http.put
   }
 
 
