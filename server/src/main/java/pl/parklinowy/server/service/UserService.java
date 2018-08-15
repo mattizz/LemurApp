@@ -46,26 +46,26 @@ public class UserService {
         return this.userRepository.save(user);
     }
 
-    public void deactivateUser(final Integer id) {
-        Optional<User> userToDeactivate = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id && t.isActive()).findFirst();
+    public User deactivateUser(final Integer id, User user) {
+        Optional<User> findUser = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id && t.isActive()).findFirst();
 
-        if (userToDeactivate.isPresent()) {
-            User user = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id).findFirst().get();
-            user.setFinishDate(LocalDateTime.now());
-            user.setActive(false);
-            this.userRepository.save(user);
+        if (findUser.isPresent()) {
+            User userInactive = findUser.get();
+            userInactive.setFinishDate(LocalDateTime.now());
+            userInactive.setActive(user.isActive());
+            return this.userRepository.save(userInactive);
         } else {
             throw new UserNotFoundException("User not found");
         }
     }
 
-    public void activateUser(final Integer id) {
-        Optional<User> userToDeactivate = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id && t.isActive()).findFirst();
+    public User activateUser(final Integer id, User user) {
+        Optional<User> findUser = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id).findFirst();
 
-        if (userToDeactivate.isPresent()) {
-            User user = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id).findFirst().get();
-            user.setActive(true);
-            this.userRepository.save(user);
+        if (findUser.isPresent()) {
+            User userActive = findUser.get();
+            userActive.setActive(user.isActive());
+            return this.userRepository.save(userActive);
         } else {
             throw new UserNotFoundException("User not found");
         }
@@ -73,10 +73,10 @@ public class UserService {
 
     public User updateUser(final Integer id, User user) {
 
-        Optional<User> userUpdate = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id && t.isActive()).findFirst();
+        Optional<User> userUpdate = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id).findFirst();
 
         if (userUpdate.isPresent()) {
-            User userToEdit = this.userRepository.findAll().stream().filter(t -> t.getUserId() == id && t.isActive()).findFirst().get();
+            User userToEdit = userUpdate.get();
             userToEdit.setFirstName(user.getFirstName());
             userToEdit.setLastName(user.getLastName());
             userToEdit.setIdentityCardNumber(user.getIdentityCardNumber());

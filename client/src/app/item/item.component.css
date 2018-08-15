@@ -12,7 +12,7 @@
   line-height: 3em
 }
 
-#item{
+.item{
   border-bottom: 1px solid grey;
   margin: 2% 0 2% 0;
 }

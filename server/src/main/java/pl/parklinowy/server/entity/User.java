@@ -119,4 +119,19 @@ public class User {
         this.finishDate = finishDate;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", identityCardNumber='" + identityCardNumber + '\'' +
+                ", additionalText='" + additionalText + '\'' +
+                ", run=" + run +
+                ", pay=" + pay +
+                ", isActive=" + isActive +
+                ", startDate=" + startDate +
+                ", finishDate=" + finishDate +
+                '}';
+    }
 }

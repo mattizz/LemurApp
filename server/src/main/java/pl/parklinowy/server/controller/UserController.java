@@ -47,17 +47,22 @@ public class UserController {
         return new ResponseEntity<>(this.userService.createUser(user), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @PatchMapping("/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
-    public void deactivateUser(@PathVariable final Integer id) {
-        this.userService.deactivateUser(id);
+    public ResponseEntity deactivateUser(@PathVariable final Integer id, @RequestBody final User user) {
+        try {
+            this.userService.deactivateUser(id, user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PostMapping("/all/{id}")
+    @PatchMapping("/all/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity activateUser(@PathVariable final Integer id) {
+    public ResponseEntity activateUser(@PathVariable final Integer id,@RequestBody final User user) {
         try {
-            this.userService.activateUser(id);
+            this.userService.activateUser(id, user);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

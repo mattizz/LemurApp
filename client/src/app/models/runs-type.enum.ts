@@ -1,5 +1,5 @@
 export enum RunsType {
-  LOW,
-  MIDDLE,
-  TOP
+  Łatwa = "LOW",
+  Średnia = "MIDDLE",
+  Trudna = "TOP"
 }

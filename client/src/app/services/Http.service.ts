@@ -12,6 +12,7 @@ export class HttpService {
   }
 
   newUserPost(user: User) : Observable<User>{
+    console.log(user);
     return this.http.post<User>(this.url + '/createUser', user);
   }
 
@@ -19,8 +20,8 @@ export class HttpService {
     return this.http.get<Array<User>>(this.url);
   }
 
-  deactivateUser() {
-    return this.http.put
+  deactivateUser(user: User) : Observable<User>{
+    return this.http.patch<User>(this.url + '/' + user.userId, user);
   }
 
 

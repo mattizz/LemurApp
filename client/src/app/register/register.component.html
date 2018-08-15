@@ -3,13 +3,16 @@
   <hr>
   <div class="row" style="margin: auto 20% auto 20%">
     <div class="col">
-      <form>
+      <form (ngSubmit)="onSubmit(form)" #form="ngForm">
         <div class="form-group">
           <label for="firstName">Imie:</label>
           <input
             type="text"
             class="form-control"
-            id="firstName" required>
+            id="firstName"
+            ngModel
+            name="firstName"
+            required>
         </div>
 
         <div class="form-group">
@@ -17,7 +20,10 @@
           <input
             type="text"
             class="form-control"
-            id="lastName" required>
+            id="lastName"
+            ngModel
+            name="lastName"
+            required>
         </div>
 
         <div class="form-group">
@@ -26,20 +32,32 @@
             type="text"
             class="form-control"
             id="identityCardNumber"
-            maxlength="10"  required>
+            maxlength="10"
+            ngModel
+            name="identityCardNumber"
+            required>
         </div>
 
         <div class="form-group">
           <label for="routeType">Rodzaj trasy:</label>
-          <select class="form-control" id="routeType" name="routeType" required>
-            <!--OPTIONS-->
+          <select class="form-control"
+                  id="routeType"
+                  ngModel
+                  name="routeType"
+                  [ngModel]="defaultRoutes">
+            <option *ngFor="let item of enumRoutesValues()" [value]="kindsRoutes[item]">{{item}}</option>
           </select>
         </div>
 
         <div class="form-group">
           <label for="payment">Płatność:</label>
-          <select  class="form-control" id="payment">
-            <!--OPTIONS-->
+          <select
+            class="form-control"
+            id="payment"
+            [ngModel]="defaultPayment"
+            name="payment">
+            <option [value]="isPay.pay">Zapłacono</option>
+            <option [value]="isPay.notPay">Nie zapłacono</option>
           </select>
         </div>
 
@@ -49,14 +67,16 @@
             class="form-control"
             id="additionalText"
             rows="3"
-            name="additionalText">
-          </textarea>
+            ngModel
+            name="additionalText"
+            ></textarea>
         </div>
 
         <div style="text-align: center">
           <button
             type="submit"
             class="btn btn-success"
+            [disabled]="!form.valid"
             >Dodaj nowego lemura</button>
         </div>
       </form>
